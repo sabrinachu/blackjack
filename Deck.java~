@@ -1,3 +1,4 @@
+
 import java.util.*;
 
 public class Deck {
@@ -9,7 +10,6 @@ public class Deck {
             for (int rank = 1; rank <= 13; rank++) {
                 Card gameCard = new Card(suit, rank);
                 cards.add(gameCard);
-                
             }
         }
         Collections.shuffle(cards);

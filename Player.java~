@@ -1,21 +1,48 @@
 import java.util.*;
 
+public class Player {
+  private ArrayList<Card> cardsInHand;
+  private int currentTotalPoints;
 
-public class Player
-{
-  private List<Card> cardsInHand; 
-  private int currentTotalPoint; 
-
-  public Player ()
-  {
-    cardsInHand = new ArrayList<Card>(); 
-    currentTotalPoint = 0; 
+  public Player() {
+    cardsInHand = new ArrayList<Card>();
+    currentTotalPoints = 0;
   }
-  
+
+  public void setCurrentTotalPoints(int currentTotalPoints) 
+  {
+    this.currentTotalPoints = currentTotalPoints;
+  }
+
+  public int getCurrentTotalPoints() 
+  {
+    return currentTotalPoints;
+  }
+
+  public void setCardsInHand(ArrayList<Card> cardsInHand) 
+  {
+    this.cardsInHand = cardsInHand;
+  }
+
+  public ArrayList<Card> getCardsInHand() 
+  {
+    return cardsInHand;
+  }
+
   public void addCard(Card card)
   {
-     cardsInHand.add(card);
-     currentTotalPoint = currentTotalPoint + card.getRank();
-
+    cardsInHand.add(card);
+    currentTotalPoints = currentTotalPoints + card.getRank();
   }
+
+  public boolean isBustedOrNot(Card card)
+  {
+    if (currentTotalPoints > 21) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+  
+  
 }
