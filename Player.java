@@ -25,8 +25,8 @@ public class Player {
     return cardsInHand;
   }
 
-  public void addCard(Card card) {
-    cardsInHand.add(card);
+  public Card addCard(Card card) {
+    Card = cardsInHand.add(card);
     currentTotalPoints = currentTotalPoints + card.getRank();
   }
 
