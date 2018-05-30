@@ -26,8 +26,9 @@ public class Player {
   }
 
   public Card addCard(Card card) {
-    Card = cardsInHand.add(card);
+    cardsInHand.add(card);
     currentTotalPoints = currentTotalPoints + card.getRank();
+    return card; 
   }
 
   public boolean isBusted() {

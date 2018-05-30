@@ -14,8 +14,6 @@ public class Deck {
             }
         }
         Collections.shuffle(cards);
-
-        
     }
 
     public Card drawTopCard() {

@@ -2,6 +2,13 @@ import javax.swing.JFrame;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+
 
 public class BlackjackGame extends JPanel {
   private Player user;
@@ -17,6 +24,10 @@ public class BlackjackGame extends JPanel {
   private JLabel dealerTotalPoints;
   private JLabel winner; 
   private JLabel cardImg; 
+  private BufferedImage image;
+  private Card addedCard; 
+  private Card dealerCard; 
+  
 
   public BlackjackGame() {
     
@@ -26,7 +37,7 @@ public class BlackjackGame extends JPanel {
 
     setLayout(new BorderLayout()); 
     setPreferredSize(new Dimension(600, 400));
-    setBackground(Color.pink);
+  
     
     hit = new JButton("Hit");
     hit.addActionListener(new buttonListener());
@@ -52,7 +63,7 @@ public class BlackjackGame extends JPanel {
     buttonPanel.add(hit, 0,0 ) ;
     buttonPanel.add(stand, 0,1);
     
-    startGame();
+    
     
     playerTotalPoints = new JLabel("The Player's Current Points: " + user.getCurrentTotalPoints()); 
     add(playerTotalPoints);
@@ -70,7 +81,7 @@ public class BlackjackGame extends JPanel {
     
     add(cardPanel, BorderLayout.CENTER); 
     add(buttonPanel, BorderLayout.SOUTH);
-
+    startGame();
   }
 
   public void setUser(Player user) {
@@ -99,18 +110,36 @@ public class BlackjackGame extends JPanel {
 
   public void startGame() {
     
-    
-    Card drawnCard = user.addCard(cardDeck.drawTopCard());
-    user.addCard(cardDeck.drawTopCard());
+    addedCard = user.addCard(cardDeck.drawTopCard());
+    addedCard = user.addCard(cardDeck.drawTopCard());
     System.out.println("original hand" + user.getCardsInHand() + "total: " + user.getCurrentTotalPoints());
-    cardImg.setIcon(new ImageIcon ("./pokerImages/" + user.getRank() + "," + user.getSuit() + ".png")); 
-
-    dealer.addCard(cardDeck.drawTopCard());
-    dealer.addCard(cardDeck.drawTopCard());
+    
+    ImagePanel();
+    
+    addedCard = dealer.addCard(cardDeck.drawTopCard());
+    addedCard = dealer.addCard(cardDeck.drawTopCard());
     System.out.println("original dealer hand" + dealer.getCardsInHand() + "total: " + dealer.getCurrentTotalPoints()); 
-    cardImg.setIcon(new ImageIcon ("./pokerImages/" + getRank() + "," + getSuit() + ".png")); 
+     
+    ImagePanel();
+  }
+  
+  public void ImagePanel()
+  {
+    try{
+      image = ImageIO.read(new File("./pokerImages/" + addedCard.getRank() + "," + addedCard.getSuit() + ".png"));
+    }catch(IOException ex){
+    }
+     
   }
 
+  public void paintComponent(Graphics g)
+  {
+    super.paintComponent(g);
+    
+    g.drawImage(image, 10, 10, userPanel); 
+    
+  }
+  
   private class buttonListener implements ActionListener {
     public void actionPerformed(ActionEvent event) {
       if (event.getActionCommand() == "Hit") {
