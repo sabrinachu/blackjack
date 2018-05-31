@@ -27,7 +27,27 @@ public class Player {
 
   public Card addCard(Card card) {
     cardsInHand.add(card);
-    currentTotalPoints = currentTotalPoints + card.getRank();
+
+    if(cardsInHand. == 1)
+    {
+      if(currentTotalPoints > 10)
+      {
+        currentTotalPoints = currentTotalPoints + 1; 
+      }
+      else if (currentTotalPoints < 10)
+      {
+        currentTotalPoints = currentTotalPoints + 11;
+      }
+    }
+    else if (card.getRank() <= 10)
+    {
+      currentTotalPoints = currentTotalPoints + card.getRank();
+    }
+    else if (card.getRank() > 10)
+    {
+      currentTotalPoints = currentTotalPoints + 10; 
+    }
+    
     return card; 
   }
 
@@ -36,6 +56,15 @@ public class Player {
       return true;
     } else {
       return false;
+    }
+  }
+
+  public int checksAce()
+  {
+    int numOfAces = 0; 
+    for (int i = 0; i < cardsInHand.size(); i++)
+    {
+      if (cardsInHand.get(i)
     }
   }
 
