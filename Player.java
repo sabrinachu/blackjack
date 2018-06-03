@@ -28,27 +28,32 @@ public class Player {
   public Card addCard(Card card) {
     cardsInHand.add(card);
 
-    if(cardsInHand. == 1)
-    {
-      if(currentTotalPoints > 10)
-      {
-        currentTotalPoints = currentTotalPoints + 1; 
-      }
-      else if (currentTotalPoints < 10)
-      {
-        currentTotalPoints = currentTotalPoints + 11;
-      }
-    }
-    else if (card.getRank() <= 10)
-    {
+    if (card.getRank() == 1) {
+      currentTotalPoints = currentTotalPoints + 11;
+    } else if (card.getRank() > 1 && card.getRank() <= 10) {
       currentTotalPoints = currentTotalPoints + card.getRank();
-    }
-    else if (card.getRank() > 10)
-    {
-      currentTotalPoints = currentTotalPoints + 10; 
+    } else if (card.getRank() > 10) {
+      currentTotalPoints = currentTotalPoints + 10;
     }
     
-    return card; 
+    if (currentTotalPoints > 21) {
+      int numOfAces = 0;
+      for (int i = 0; i < cardsInHand.size(); i++) {
+        if (cardsInHand.get(i).getRank() == 1) {
+          numOfAces++;
+        }
+      }
+      if (numOfAces != 0)
+      {
+        while (numOfAces >= 1 || currentTotalPoints > 21) {
+          numOfAces--;
+          currentTotalPoints = currentTotalPoints - 10;
+        }
+      }
+
+    }
+    
+    return card;
   }
 
   public boolean isBusted() {
@@ -59,15 +64,22 @@ public class Player {
     }
   }
 
-  public int checksAce()
-  {
-    int numOfAces = 0; 
-    for (int i = 0; i < cardsInHand.size(); i++)
-    {
-      if (cardsInHand.get(i)
-    }
-  }
+  public void checkAce() {
+    int numOfAces = 0;
+    if (currentTotalPoints > 21) {
+      for (int i = 0; i <= cardsInHand.size(); i++) {
+        if (cardsInHand.get(i).getRank() == 1) {
+          numOfAces++;
+        }
+      }
 
-  
+      while (numOfAces >= 1 || currentTotalPoints > 21) {
+        numOfAces--;
+        currentTotalPoints = currentTotalPoints - 10;
+      }
+
+    }
+
+  }
 
 }

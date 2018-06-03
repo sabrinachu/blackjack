@@ -17,7 +17,7 @@ public class Card {
     this.rank = rank;
 
     try{
-      this.image = ImageIO.read(new File("./pokerImages/" + this.rank + "," + this.suit + ".png"));
+      this.image = ImageIO.read(new File("./pokerImages/" + this.rank + "_" + this.suit + ".png"));
     }catch(IOException ex){
     }
 
