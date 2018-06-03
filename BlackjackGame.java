@@ -216,11 +216,9 @@ public class BlackjackGame extends JPanel {
 
         userFinished = false; 
 
-        user.setCurrentTotalPoints(0);
-        user.getCardsInHand().clear();
+        user.resetPlayer();
 
-        dealer.setCurrentTotalPoints(0);
-        dealer.getCardsInHand().clear();
+        dealer.resetPlayer();
 
         cardDeck.createDeck();
 
