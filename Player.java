@@ -3,10 +3,21 @@ import java.util.*;
 public class Player {
   private ArrayList<Card> cardsInHand;
   private int currentTotalPoints;
+  private int numAce;
+  private boolean acePointAlreadyReduced;
 
   public Player() {
     cardsInHand = new ArrayList<Card>();
     currentTotalPoints = 0;
+    numAce = 0;
+    acePointAlreadyReduced = false;
+  }
+
+  public void resetPlayer() {
+    currentTotalPoints = 0;
+    cardsInHand.clear();
+    numAce = 0;
+    acePointAlreadyReduced = false;
   }
 
   public void setCurrentTotalPoints(int currentTotalPoints) {
@@ -29,30 +40,25 @@ public class Player {
     cardsInHand.add(card);
 
     if (card.getRank() == 1) {
-      currentTotalPoints = currentTotalPoints + 11;
+      if (numAce == 0) {
+        currentTotalPoints = currentTotalPoints + 11;
+      } else {
+        currentTotalPoints = currentTotalPoints + 1;
+      }
+      numAce++;
+
     } else if (card.getRank() > 1 && card.getRank() <= 10) {
       currentTotalPoints = currentTotalPoints + card.getRank();
     } else if (card.getRank() > 10) {
       currentTotalPoints = currentTotalPoints + 10;
     }
-    
-    if (currentTotalPoints > 21) {
-      int numOfAces = 0;
-      for (int i = 0; i < cardsInHand.size(); i++) {
-        if (cardsInHand.get(i).getRank() == 1) {
-          numOfAces++;
-        }
-      }
-      if (numOfAces != 0)
-      {
-        while (numOfAces >= 1 || currentTotalPoints > 21) {
-          numOfAces--;
-          currentTotalPoints = currentTotalPoints - 10;
-        }
-      }
 
+    if (currentTotalPoints > 21) {
+      if (numAce != 0 && acePointAlreadyReduced == false) {
+        currentTotalPoints = currentTotalPoints - 10;
+        acePointAlreadyReduced = true;
+      }
     }
-    
     return card;
   }
 
@@ -64,21 +70,22 @@ public class Player {
     }
   }
 
-  public void checkAce() {
-    int numOfAces = 0;
-    if (currentTotalPoints > 21) {
-      for (int i = 0; i <= cardsInHand.size(); i++) {
-        if (cardsInHand.get(i).getRank() == 1) {
-          numOfAces++;
-        }
-      }
+  public int getSecondCardPoint()
+  {
+    int secondCardRank = cardsInHand.get(1).getRank();
 
-      while (numOfAces >= 1 || currentTotalPoints > 21) {
-        numOfAces--;
-        currentTotalPoints = currentTotalPoints - 10;
-      }
-
+    if (secondCardRank != 1 && secondCardRank <= 10) {
+      return secondCardRank; 
+    } 
+    else if (secondCardRank == 1)
+    {
+      return 11; 
     }
+    else 
+    {
+      return 10; 
+    }
+
 
   }
 

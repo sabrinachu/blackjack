@@ -14,10 +14,10 @@ public class BlackjackGame extends JPanel {
   private JButton stand;
   private JButton playAgain;
   private JPanel buttonPanel;
-  private JPanel scorePanel;
+  private JPanel scorePanel; 
   private JLabel playerTotalPoints;
   private JLabel dealerTotalPoints;
-  private JLabel winner;
+  private String winner;
   private Card addedCard;
   private BufferedImage backImg; 
   private boolean userFinished; 
@@ -28,39 +28,42 @@ public class BlackjackGame extends JPanel {
     this.dealer = new Player();
     this.cardDeck = new Deck();
     this.userFinished = false; 
+    winner = ""; 
 
     setLayout(new BorderLayout());
-    setPreferredSize(new Dimension(700, 400));
+    setPreferredSize(new Dimension(1000, 600));
+    setBackground(new Color(8, 117, 19));
+    setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
     hit = new JButton("Hit");
     hit.addActionListener(new buttonListener());
+    hit.setFont(new Font("Verdana", Font.PLAIN, 20));
 
     stand = new JButton("Stand");
     stand.addActionListener(new buttonListener());
+    stand.setFont(new Font("Verdana", Font.PLAIN, 20));
 
     playAgain = new JButton("Play Again!");
     playAgain.addActionListener(new buttonListener());
+    playAgain.setFont(new Font("Verdana", Font.PLAIN, 20));
 
     buttonPanel = new JPanel();
 
     buttonPanel.setLayout(new GridLayout());
-    buttonPanel.setPreferredSize(new Dimension(60, 40));
+    buttonPanel.setPreferredSize(new Dimension(70, 50));
     buttonPanel.add(hit, 0, 0);
     buttonPanel.add(stand, 0, 1);
     buttonPanel.add(playAgain, 0, 2);
 
-    winner = new JLabel();
-    winner.setFont(new Font(null, Font.PLAIN, 15));
-
     scorePanel = new JPanel();
     scorePanel.setLayout(new GridLayout());
-    scorePanel.setPreferredSize(new Dimension(60, 40));
+    scorePanel.setPreferredSize(new Dimension(70, 50));
 
     playerTotalPoints = new JLabel("   The Player's Current Points: " + user.getCurrentTotalPoints());
-    dealerTotalPoints = new JLabel("The Dealer's Current Pointsbbbbbb: " + dealer.getCurrentTotalPoints());
+    dealerTotalPoints = new JLabel("The Dealer's Current Points: " + dealer.getCurrentTotalPoints());
 
-    playerTotalPoints.setFont(new Font(null, Font.PLAIN, 15));
-    dealerTotalPoints.setFont(new Font(null, Font.PLAIN, 15));
+    playerTotalPoints.setFont(new Font(null, Font.BOLD, 20));
+    dealerTotalPoints.setFont(new Font(null, Font.BOLD, 20));
 
     scorePanel.add(playerTotalPoints, 0, 0);
     scorePanel.add(dealerTotalPoints, 0, 1);
@@ -115,7 +118,8 @@ public class BlackjackGame extends JPanel {
 
     addedCard = dealer.addCard(cardDeck.drawTopCard());
     addedCard = dealer.addCard(cardDeck.drawTopCard());
-    dealerTotalPoints.setText("The Dealer's Current Points: " + dealer.getCurrentTotalPoints());
+
+    dealerTotalPoints.setText("The Dealer's Current Points: " + dealer.getSecondCardPoint());
     System.out.println("original dealer hand" + dealer.getCardsInHand() + "total: " + dealer.getCurrentTotalPoints());
 
   }
@@ -135,7 +139,7 @@ public class BlackjackGame extends JPanel {
       int playerX = playerTotalPoints.getX() + 20;
       for (int i = 0; i < user.getCardsInHand().size(); i++) {
         BufferedImage tempImg = user.getCardsInHand().get(i).getImage();
-        g.drawImage(tempImg, i * 35 + playerX, 50, 170, 260, this);
+        g.drawImage(tempImg, i * 35 + playerX, 150, 170, 260, this);
       }
 
       int dealerX = dealerTotalPoints.getX();
@@ -144,13 +148,16 @@ public class BlackjackGame extends JPanel {
         BufferedImage tempImg = dealer.getCardsInHand().get(i).getImage();
         if (i == 0 && userFinished == false)
         {
-          g.drawImage(backImg, i * 35 + dealerX, 50, 170, 260, this);
+          g.drawImage(backImg, i * 35 + dealerX, 150, 170, 260, this);
         }
         else
         {
-          g.drawImage(tempImg, i * 45 + dealerX, 50, 170, 260, this);
+          g.drawImage(tempImg, i * 45 + dealerX, 150, 170, 260, this);
         }
         
+        g.setFont(new Font ("verdana", Font.PLAIN, 30));
+        g.drawString(winner, 55 , 500);
+        g.setColor(Color.white);
         
       }
 
@@ -170,7 +177,7 @@ public class BlackjackGame extends JPanel {
 
 
         if (user.isBusted() == true) {
-          winner.setText("You lose");
+          winner = "Busted!";
           System.out.println("You lose");
 
           hit.setEnabled(false);
@@ -185,6 +192,7 @@ public class BlackjackGame extends JPanel {
         playAgain.setEnabled(false);
 
         userFinished = true; 
+        dealerTotalPoints.setText("The Dealer's Current Points: " + dealer.getCurrentTotalPoints());
 
         while (dealer.getCurrentTotalPoints() <= 16) {
 
@@ -196,17 +204,17 @@ public class BlackjackGame extends JPanel {
         System.out.println("Dealer's Cards: " + dealer.getCardsInHand() + "total: " + dealer.getCurrentTotalPoints());
 
         if (dealer.isBusted() == true) {
-          System.out.println("Player wins");
-          winner.setText("Player wins!");
+          System.out.println("Player wins!!");
+          winner = "Player wins!!";
         } else if (dealer.getCurrentTotalPoints() > user.getCurrentTotalPoints()) {
           System.out.println("Dealer wins");
-          winner.setText("Dealer wins!");
+          winner = "Dealer wins!";
         } else if (dealer.getCurrentTotalPoints() < user.getCurrentTotalPoints()) {
-          System.out.println("Player wins this");
-          winner.setText("Player wins this!");
+          System.out.println("Player wins!!");
+          winner = "Player wins!!";
         } else {
           System.out.println("It's a tie!");
-          winner.setText("It's a tie!");
+          winner = "It's a tie!";
         }
         playAgain.setEnabled(true);
       } else if (event.getActionCommand() == "Play Again!") {
@@ -216,15 +224,10 @@ public class BlackjackGame extends JPanel {
 
         userFinished = false; 
 
-        user.setCurrentTotalPoints(0);
-        user.getCardsInHand().clear();
-
-        dealer.setCurrentTotalPoints(0);
-        dealer.getCardsInHand().clear();
-
+        user.resetPlayer();
+        dealer.resetPlayer();        
         cardDeck.createDeck();
-
-        winner.setText("");
+        winner = "";
 
         startGame();
 

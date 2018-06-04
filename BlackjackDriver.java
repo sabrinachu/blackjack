@@ -22,6 +22,7 @@ public class BlackjackDriver {
     frame.getContentPane().add(new BlackjackGame());
     frame.pack();
     frame.setVisible(true);
+    frame.setResizable(false);
 
   }
 
