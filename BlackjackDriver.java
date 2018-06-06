@@ -1,9 +1,9 @@
 /*************************************************************************************
-  * Program: BlackjackDriver.java                                                      *
+  * Program: BlackjackDriver.java                                                    *
   ************************************************************************************
   * Author: Sabrina Chu                                                              *
   * Due Date: 6/5/2018                                                               *
-  * Description:           *
+  * Description: Driver class for my Blackjack Final Project                         *
   ***********************************************************************************/
 import javax.swing.JFrame;
 import javax.swing.UIManager;
@@ -15,14 +15,13 @@ public class BlackjackDriver {
     } catch (Exception e) {
       e.printStackTrace();
     }
-    
-    JFrame frame = new JFrame("Blackjack");
+
+    JFrame frame = new JFrame("Blackjack"); // creates the frame
 
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.getContentPane().add(new BlackjackGame());
     frame.pack();
     frame.setVisible(true);
-    frame.setResizable(false);
 
   }
 

@@ -1,3 +1,11 @@
+/*************************************************************************************
+  * Program: Card.java                                                               *
+  ************************************************************************************
+  * Author: Sabrina Chu                                                              *
+  * Due Date: 6/5/2018                                                               *
+  * Description: Creates my Card Object for Blackjack. Stores the rank, suit, and    *
+  *              image for all 52 cards                                              *
+  ***********************************************************************************/
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -10,19 +18,21 @@ import java.util.logging.*;
 public class Card {
   private int rank;
   private int suit; // 0 = spades, 1 = heart, 2 = diamond, 3 = club
-  private BufferedImage image; 
+  private BufferedImage image;
 
   public Card(int suit, int rank) {
     this.suit = suit;
     this.rank = rank;
 
-    try{
+    // gets the images in the folder pokerImages
+    try {
       this.image = ImageIO.read(new File("./pokerImages/" + this.rank + "_" + this.suit + ".png"));
-    }catch(IOException ex){
+    } catch (IOException ex) {
     }
 
   }
 
+  // accessor and mutator methods for the variables
   public void setRank(int rank) {
     this.rank = rank;
   }
@@ -39,15 +49,14 @@ public class Card {
     return suit;
   }
 
-  public void setImage(BufferedImage image)
-  {
+  public void setImage(BufferedImage image) {
     this.image = image;
   }
 
-  public BufferedImage getImage()
-  {
-    return image; 
+  public BufferedImage getImage() {
+    return image;
   }
+
   public String toString() {
     String result = "";
 
